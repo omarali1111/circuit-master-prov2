@@ -61,15 +61,34 @@ with tab1:
             with st.expander("View Raw SPICE Netlist"):
                 st.code(netlist, language="spice")
 
-# --- TAB 2: THE MCQ SECTION ---
-with tab2:
-    st.header("Chapter 3/4 Assessment Practice")
-    st.write("Test your knowledge. The engine will verify your logic.")
-    st.divider()
+# --- UI LAYOUT ARCHITECTURE ---
     
-    # 1. Your Question Bank (Add as many as you want here!)
-mcq_database = [
-        {
+    # 1. Create 11 distinct tabs
+    tab_solver, tab_ch1, tab_ch2, tab_ch3, tab_ch4, tab_ch5, tab_ch6, tab_ch7, tab_ch8, tab_ch9, tab_ch10 = st.tabs([
+        "⚡ Circuit Solver", 
+        "Ch 1", "Ch 2", "Ch 3", "Ch 4", "Ch 5", 
+        "Ch 6", "Ch 7", "Ch 8", "Ch 9", "Ch 10"
+    ])
+
+    # 2. The Main Solver Tab
+    with tab_solver:
+        st.header("Upload a Circuit")
+        st.write("Paste or upload a screenshot from the textbook.")
+        
+        # Put your file_uploader and button code here!
+        # Make sure it is indented exactly like this text is.
+        uploaded_file = st.file_uploader("Upload", type=['png', 'jpg'])
+        
+        # ... your solver engine code goes here ...
+
+
+    # 3. Chapter 1 Practice Tab
+    with tab_ch1:
+        st.header("Chapter 1: Circuit Variables")
+        
+        # Paste your massive 100-question chunk here!
+        mcq_database_ch1 = [
+                    {
             "question": "What is the SI base unit for electrical charge, and how is it related to the electron?",
             "options": ["Ampere; 1 A = 1.602e-19 electrons", "Coulomb; 1 C = 6.24e18 electrons", "Joule; 1 J = 6.24e18 electrons", "Volt; 1 V = 1.602e-19 electrons"],
             "answer": "Coulomb; 1 C = 6.24e18 electrons",
@@ -669,26 +688,38 @@ mcq_database = [
             "answer": "4",
             "explanation": "In any circuit with 'N' essential nodes, you can only write N-1 independent KCL equations. The Nth equation is always redundant. Therefore, 5 - 1 = 4."
         }
-    ]
+        ]
 
-    # 2. Automatically generate the UI for every question
-for i, q in enumerate(mcq_database):
-        st.markdown(f"**Q{i+1}: {q['question']}**")
+        # The loop MUST be indented underneath "with tab_ch1:"
+        for i, q in enumerate(mcq_database_ch1):
+            st.markdown(f"**Q{i+1}: {q['question']}**")
+            
+            # Notice the key includes "ch1_" to prevent crashes!
+            user_choice = st.radio(
+                "Select your answer:", 
+                q["options"], 
+                index=None, 
+                key=f"ch1_q{i}",
+                label_visibility="collapsed"
+            )
+            
+            if st.button(f"Check Answer for Q{i+1}", key=f"ch1_btn{i}"):
+                if user_choice == q["answer"]:
+                    st.success(f"✅ Correct! {q['explanation']}")
+                elif user_choice is None:
+                    st.warning("Please select an answer first.")
+                else:
+                    st.error("❌ Incorrect. Try again.")
+            st.divider()
+
+    # 4. Chapter 2 Practice Tab
+    with tab_ch2:
+        st.header("Chapter 2: Resistive Circuits")
+        st.info("Currently locked. Question bank compiling...")
         
-        # Give each radio button a unique key so Streamlit doesn't get confused
-        user_choice = st.radio(
-            "Select your answer:", 
-            q["options"], 
-            index=None, 
-            key=f"q{i}",
-            label_visibility="collapsed"
-        )
-        
-        if st.button(f"Check Answer for Q{i+1}", key=f"btn{i}"):
-            if user_choice == q["answer"]:
-                st.success(f"✅ Correct! {q['explanation']}")
-            elif user_choice is None:
-                st.warning("Please select an answer first.")
-            else:
-                st.error("❌ Incorrect. Try again.")
-        st.divider()
+        # When we generate Chapter 2, you will paste mcq_database_ch2 here!
+
+    # 5. Placeholder for future chapters
+    with tab_ch3:
+        st.header("Chapter 3: Node-Voltage & Mesh-Current")
+        st.info("Currently locked. Question bank compiling...")
