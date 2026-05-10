@@ -64,22 +64,10 @@ with tab1:
 # --- UI LAYOUT ARCHITECTURE ---
     
     # 1. Create 11 distinct tabs
-    tab_solver, tab_ch1, tab_ch2, tab_ch3, tab_ch4, tab_ch5, tab_ch6, tab_ch7, tab_ch8, tab_ch9, tab_ch10 = st.tabs([
-        "⚡ Circuit Solver", 
+    tab_ch1, tab_ch2, tab_ch3, tab_ch4, tab_ch5, tab_ch6, tab_ch7, tab_ch8, tab_ch9, tab_ch10 = st.tabs([ 
         "Ch 1", "Ch 2", "Ch 3", "Ch 4", "Ch 5", 
         "Ch 6", "Ch 7", "Ch 8", "Ch 9", "Ch 10"
     ])
-
-    # 2. The Main Solver Tab
-    with tab_solver:
-        st.header("Upload a Circuit")
-        st.write("Paste or upload a screenshot from the textbook.")
-        
-        # Put your file_uploader and button code here!
-        # Make sure it is indented exactly like this text is.
-        uploaded_file = st.file_uploader("Upload", type=['png', 'jpg'])
-        
-        # ... your solver engine code goes here ...
 
 
     # 3. Chapter 1 Practice Tab
